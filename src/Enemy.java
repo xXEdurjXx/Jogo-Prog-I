@@ -9,10 +9,13 @@
  * @author Eduardo
  */
 import jplay.Sprite;
+
 public class Enemy extends Sprite {
-    public Enemy(String caminho,int numFrames){
-        super(caminho,numFrames);
-        public boolean foiMorto;
+
+    public boolean foiMorto;
+
+    public Enemy(String caminho, int numFrames) {
+        super(caminho, numFrames);
         
     }
 }
