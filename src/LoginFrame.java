@@ -13,14 +13,15 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Eduardo
  */
 public class LoginFrame extends javax.swing.JFrame {
+
     String usuario;
-    int novaPont,resp;
+    int novaPont, resp;
+
     public LoginFrame() {
         initComponents();
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -154,18 +155,18 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_campoSenhaMouseClicked
 
     private void botaoOkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoOkMouseClicked
-                usuario = campoUsuario.getText();
+        usuario = campoUsuario.getText();
         char[] senhaQuebrada = campoSenha.getPassword();
         String senha = "";
         for (int i = 0; i < senhaQuebrada.length; i++) {
-            senha = senha + senhaQuebrada[i];            
+            senha = senha + senhaQuebrada[i];
         }
-        if(!usuario.isEmpty()){
-        if(criarNovo.isSelected()){
-            criarNovoUsuario(usuario,senha);
-        } else {
-        logarUsuario(usuario,senha);
-        }
+        if (!usuario.isEmpty()) {
+            if (criarNovo.isSelected()) {
+                criarNovoUsuario(usuario, senha);
+            } else {
+                logarUsuario(usuario, senha);
+            }
         }
     }//GEN-LAST:event_botaoOkMouseClicked
 
@@ -174,72 +175,74 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoCancelarMouseClicked
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
-        
+
     }//GEN-LAST:event_formComponentHidden
-        private void logarUsuario(String usuario, String senha) {
-        String senhaAtual,usuarioAtual;
+    private void logarUsuario(String usuario, String senha) {
+        String senhaAtual, usuarioAtual;
         String senhaTeste = "";
         int pontuacaoUsuario = 0;
         boolean naoApareceu = true;
         File dados = new File("data");
         try {
             Scanner reader = new Scanner(dados);
-            while ((reader.hasNextLine())&&(naoApareceu)){
+            while ((reader.hasNextLine()) && (naoApareceu)) {
                 pontuacaoUsuario = Integer.parseInt(reader.next());
                 usuarioAtual = reader.next();
                 senhaAtual = reader.next();
-                if(usuario.equals(usuarioAtual)){
+                if (usuario.equals(usuarioAtual)) {
                     naoApareceu = false;
                     senhaTeste = senhaAtual;
                 }
             }
-            if (naoApareceu){
+            if (naoApareceu) {
                 int resp = JOptionPane.showConfirmDialog(null, "Usuário não encontrado, desejar criar um novo?");
-                if(resp == JOptionPane.YES_OPTION){
-                    criarNovoUsuario(usuario,senha);
+                if (resp == JOptionPane.YES_OPTION) {
+                    criarNovoUsuario(usuario, senha);
                 }
             } else {
-                if(senha.equals(senhaTeste)){
-                      resp = JOptionPane.showConfirmDialog(null,"Sua atual pontuação é "+pontuacaoUsuario+", deseja salvar sua nova pontuação("+novaPont+")?");
-                      if(resp == JOptionPane.OK_OPTION){
-                          
-                      }
-                      this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                      this.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Senha Incorreta!");
+                if (senha.equals(senhaTeste)) {
+                    resp = JOptionPane.showConfirmDialog(null, "Sua atual pontuação é " + pontuacaoUsuario + ", deseja salvar sua nova pontuação(" + novaPont + ")?");
+                    if (resp == JOptionPane.OK_OPTION) {
+                        salvarPontuacao(usuario, novaPont, senhaTeste);
                     }
+                    this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Senha Incorreta!");
+                }
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void criarNovoUsuario(String usuario, String senha) {
         File dados = new File("data");
         File temp = new File("temp");
         try {
             Scanner leitor = new Scanner(dados);
             Formatter escritor = new Formatter(temp);
-            while(leitor.hasNextLine()){  
+            while (leitor.hasNextLine()) {
                 escritor.format("%s\n", leitor.nextLine());
             }
-            escritor.format("%s\n","0 "+usuario+" "+senha);
+            escritor.format("%s\n", "0 " + usuario + " " + senha);
             leitor.close();
             escritor.close();
             dados.setWritable(true);
             leitor = new Scanner(temp);
             escritor = new Formatter(dados);
-            while(leitor.hasNextLine()){
+            while (leitor.hasNextLine()) {
                 escritor.format("%s\n", leitor.nextLine());
             }
             dados.setReadOnly();
             leitor.close();
             escritor.close();
-            logarUsuario(usuario,senha);
-        } catch (FileNotFoundException e){
+            logarUsuario(usuario, senha);
+        } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Erro ao tentar ler um arquivo");
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -271,11 +274,12 @@ public class LoginFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new LoginFrame().setVisible(true);
-                
+
             }
         });
     }
-        public String getUser() {
+
+    public String getUser() {
         return usuario;
     }
 
@@ -292,6 +296,52 @@ public class LoginFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void setNovaPont(int pontuacao) {
-        
+        novaPont = pontuacao;
+    }
+
+    private void salvarPontuacao(String usuario, int pontuacao, String senha) {
+        File dados = new File("data");
+        File temp = new File("temp");
+        try {
+            Scanner leitor = new Scanner(dados);
+            Formatter escritor = new Formatter(temp);
+            int pontuacaoAtual = 0;
+            boolean naoEntrou = true;
+            String usuarioAtual = "";
+            String[] infUsuarios;
+            while ((naoEntrou) && (leitor.hasNextLine())) {
+                infUsuarios = leitor.nextLine().split(" ", 3);
+                System.out.println(infUsuarios[0]);
+                if ((pontuacao < Integer.parseInt(infUsuarios[0])) && (!infUsuarios[1].equals(usuario))) {
+                    escritor.format("%s\n", infUsuarios[0] + " " + infUsuarios[1]);
+                } else {
+                    escritor.format("%s\n", pontuacao + " " + usuario + " " + senha);
+                    System.out.println(pontuacao + " " + usuario);
+                    naoEntrou = false;
+                }
+            }
+            while (leitor.hasNextLine()) {
+                escritor.format("%s\n", leitor.nextLine());
+            }
+            escritor.close();
+            leitor.close();
+            dados.setWritable(true);
+            temp.deleteOnExit();
+            Formatter dataWriter = new Formatter(dados);
+            Scanner tempReader = new Scanner(temp);
+            while(tempReader.hasNextLine()){
+                dataWriter.format("%s\n", tempReader.nextLine());
+            }
+            dataWriter.close();
+            dados.setWritable(false);
+            tempReader.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar ler algum arquivo!");
+        }
+        int resp = JOptionPane.showConfirmDialog(null,"Pontuação salva com sucesso! Deseja ver o Ranking?");
+        if(resp == JOptionPane.NO_OPTION){
+            Game.window.exit();
+        }
     }
 }
+
