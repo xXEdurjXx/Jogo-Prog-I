@@ -21,11 +21,8 @@ public class MenuInicial {
     private static Keyboard teclado;
     private static Mouse mouse;
     private static Sound musica, somStart;
-    private static Button botaoSair, botaoLogin, botaoConfig, botaoStart;
-    private static boolean playerLogou = false;
-    private static boolean loginAberto = false;
+    private static Button botaoSair, botaoConfig, botaoStart;
     private static boolean configAberto = false;
-    static LoginFrame login;
     static ConfigFrame config;
     private static Game jogo;
     static int volumeMusica,dificuldade;
@@ -51,11 +48,8 @@ public class MenuInicial {
         somStart = new Sound("sons/enter_level.wav");
         somStart.setRepeat(false);
         botaoSair = new Button("images/exit_icon.png", 770, 10);
-        botaoLogin = new Button("images/login_button.png", 300, 400);
         botaoStart = new Button("images/start_button.png", 300, 400);
         botaoConfig = new Button("images/config_button.png", 730, 10);
-        login = new LoginFrame();
-        login.setVisible(false);
         config = new ConfigFrame();
     }
 
@@ -63,9 +57,6 @@ public class MenuInicial {
         fundo.draw();
         botaoSair.draw();
         botaoStart.draw();
-        if (!playerLogou) {
-            botaoLogin.draw();
-        }
         botaoConfig.draw();
         janela.update();
     }
@@ -88,11 +79,7 @@ public class MenuInicial {
                 configAberto = true;
                 config.setVisible(true);
             }
-            if (mouse.isOverObject(botaoLogin) && mouse.isLeftButtonPressed() && (!playerLogou) && (!loginAberto)) {
-                loginAberto = true;
-                login.setVisible(true);
-            }
-            if (mouse.isOverObject(botaoStart) && mouse.isLeftButtonPressed() && playerLogou) {
+            if (mouse.isOverObject(botaoStart) && mouse.isLeftButtonPressed()) {
                 sair = true;
             }
 
@@ -101,18 +88,6 @@ public class MenuInicial {
 
     public static void fechar() {
         janela.exit();
-    }
-
-    public static void setLogou(boolean b) {
-        playerLogou = b;
-        if(b == true){
-            botaoLogin.x = 1000;
-            botaoLogin.y = 1000;
-        }
-    }
-
-    public static void setLoginAberto(boolean z) {
-        loginAberto = z;
     }
 
     static void setVolumeMusica(int vol) {

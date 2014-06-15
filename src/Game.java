@@ -10,6 +10,7 @@
  */
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JOptionPane;
 //import java.awt.Point;
 //import java.util.ArrayList;
 //import java.util.Vector;
@@ -27,12 +28,16 @@ class Game {
     static Scene scene;
     static Keyboard keyboard;
     static GameImage fundo;
+
+    static void setMandouSair(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     int tempoAtual;
     Time tempo;
     Font fonteTempo, fontePont;
-    boolean pausado;
+    private boolean pausado,mandouSair,mandouContinuar;
     static MenuFrame menu;
-    private static Sound musica,somPause;
+    private static Sound musica, somPause;
     static Player player;
     private static Coin[] moedas;
     private String pont;
@@ -57,7 +62,7 @@ class Game {
         player = new Player(30, 0, 600);
         scene.addOverlay(player);
         scene.moveScene(player);
-        moedas = new Coin[15];
+        moedas = new Coin[30];
         for (int i = 0; i < moedas.length; i++) {
             moedas[i] = new Coin();
             moedas[i].x = 55 + 25 * i;
@@ -72,7 +77,9 @@ class Game {
         }
         while (continuar) {
 //            controlarColisoes();
-            draw();
+            if (pausado == false) {
+                draw();
+            }
             if (keyboard.keyDown(Keyboard.ESCAPE_KEY)) {
                 abrirMenu();
             }
@@ -83,7 +90,7 @@ class Game {
         player.move();
         player.update();
         scene.draw();
-        window.drawText(String.format("%03d",(Object) tempo.getTotalSecond()) + "", 650, 40, Color.WHITE, fonteTempo);
+        window.drawText(String.format("%03d", (Object) tempo.getTotalSecond()) + "", 650, 40, Color.WHITE, fonteTempo);
         window.drawText(String.format("%05d", (Object) player.getPontuacao()), 100, 35, Color.BLACK, fontePont);
         atualizarVidas();
         atualizarMoedas();
@@ -100,20 +107,27 @@ class Game {
         tempoAtual = (int) tempo.getTotalSecond();
         pausado = true;
         menu.setVisible(true);
-        musica.pause();
+        musica.stop();
         playSound(somPause);
+        while (pausado){
+            if(menu.mandouSair){
+                exitGame();
+            } 
+            if (menu.mandouContinuar){
+                menu.setMandouContinuar(false);
+                fecharMenu();
+            }
+        }
     }
 
     void fecharMenu() {
-
-    }
-
-    void setPausado(boolean b) {
-        pausado = b;
+        tempo.setTime(0,0,tempoAtual);
+        playSound(musica);
+        pausado = false;
     }
 
     static void exitGame() {
-        window.exit();
+        JOptionPane.showConfirmDialog(null, "Deseja salvar sua pontuação?");
     }
 
     private void atualizarVidas() {
@@ -150,6 +164,7 @@ class Game {
 //            }
 //        }
 //    }
+
     private void atualizarMoedas() {
         for (Coin moeda : moedas) {
             if (player.collided(moeda) && (!moeda.foiPega)) {
@@ -164,7 +179,7 @@ class Game {
         }
     }
 
-    private void playSound(Sound somPause) {
-        somPause.play();
-    }
+    private void playSound(Sound som) {
+        som.play();
+    }  
 }

@@ -172,7 +172,7 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoCancelarMouseClicked
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
-        MenuInicial.setLoginAberto(false);
+        
     }//GEN-LAST:event_formComponentHidden
         private void logarUsuario(String usuario, String senha) {
         String senhaAtual,usuarioAtual;
@@ -198,7 +198,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 }
             } else {
                 if(senha.equals(senhaTeste)){
-                      MenuInicial.setLogou(true);
+                      
                       this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                       this.dispose();
                     } else {

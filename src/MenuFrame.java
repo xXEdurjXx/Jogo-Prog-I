@@ -1,3 +1,6 @@
+
+import jplay.Sound;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,6 +12,9 @@
  * @author Eduardo
  */
 public class MenuFrame extends javax.swing.JFrame {
+    Sound somPause;
+    boolean mandouSair,mandouContinuar;
+    
 
     /**
      * Creates new form MenuFrame
@@ -17,6 +23,8 @@ public class MenuFrame extends javax.swing.JFrame {
         initComponents();
         this.setResizable(false);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        mandouSair = false;
+        mandouContinuar = false;
     }
 
     /**
@@ -97,11 +105,13 @@ public class MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoContMouseEntered
 
     private void botaoContMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoContMouseClicked
+        mandouContinuar = true;
         this.dispose();
     }//GEN-LAST:event_botaoContMouseClicked
 
     private void botaoSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botaoSairMouseClicked
-        Game.exitGame();
+        mandouSair = true;
+        this.dispose();
     }//GEN-LAST:event_botaoSairMouseClicked
 
     /**
@@ -138,11 +148,15 @@ public class MenuFrame extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton botaoCont;
     private javax.swing.JButton botaoSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
+
+    void setMandouContinuar(boolean b) {
+        mandouContinuar = b;
+    }
 }
