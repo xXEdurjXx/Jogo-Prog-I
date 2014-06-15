@@ -187,8 +187,11 @@ public class LoginFrame extends javax.swing.JFrame {
             Scanner reader = new Scanner(dados);
             while ((reader.hasNextLine()) && (naoApareceu)) {
                 pontuacaoUsuario = Integer.parseInt(reader.next());
+                System.out.println(pontuacaoUsuario);
                 usuarioAtual = reader.next();
+                System.out.println(usuarioAtual);
                 senhaAtual = reader.next();
+                System.out.println(senhaAtual);
                 if (usuario.equals(usuarioAtual)) {
                     naoApareceu = false;
                     senhaTeste = senhaAtual;
@@ -211,6 +214,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Senha Incorreta!");
                 }
             }
+            dados.setWritable(false);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -309,19 +313,21 @@ public class LoginFrame extends javax.swing.JFrame {
             boolean naoEntrou = true;
             String usuarioAtual = "";
             String[] infUsuarios;
-            while ((naoEntrou) && (leitor.hasNextLine())) {
+            while (leitor.hasNextLine()) {
                 infUsuarios = leitor.nextLine().split(" ", 3);
                 System.out.println(infUsuarios[0]);
-                if ((pontuacao < Integer.parseInt(infUsuarios[0])) && (!infUsuarios[1].equals(usuario))) {
-                    escritor.format("%s\n", infUsuarios[0] + " " + infUsuarios[1]);
-                } else {
-                    escritor.format("%s\n", pontuacao + " " + usuario + " " + senha);
-                    System.out.println(pontuacao + " " + usuario);
-                    naoEntrou = false;
+                if (infUsuarios[1].equals(usuario) == false) {
+                    if (pontuacao < Integer.parseInt(infUsuarios[0])) {
+                        escritor.format("%s\n", infUsuarios[0] + " " + infUsuarios[1] + " " + infUsuarios[2]);
+                    } else {
+                        escritor.format("%s\n", pontuacao + " " + usuario + " " + senha);
+                        escritor.format("%s\n", infUsuarios[0] + " " + infUsuarios[1] + " " + infUsuarios[2]);
+                        naoEntrou = false;
+                    }
                 }
             }
-            while (leitor.hasNextLine()) {
-                escritor.format("%s\n", leitor.nextLine());
+            if (naoEntrou) {
+                escritor.format("%s\n", pontuacao + " " + usuario + " " + senha);
             }
             escritor.close();
             leitor.close();
@@ -329,7 +335,7 @@ public class LoginFrame extends javax.swing.JFrame {
             temp.deleteOnExit();
             Formatter dataWriter = new Formatter(dados);
             Scanner tempReader = new Scanner(temp);
-            while(tempReader.hasNextLine()){
+            while (tempReader.hasNextLine()) {
                 dataWriter.format("%s\n", tempReader.nextLine());
             }
             dataWriter.close();
@@ -338,10 +344,11 @@ public class LoginFrame extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao tentar ler algum arquivo!");
         }
-        int resp = JOptionPane.showConfirmDialog(null,"Pontuação salva com sucesso! Deseja ver o Ranking?");
-        if(resp == JOptionPane.NO_OPTION){
+        int resp = JOptionPane.showConfirmDialog(null, "Pontuação salva com sucesso! Deseja ver o Ranking?");
+        if (resp == JOptionPane.NO_OPTION) {
             Game.window.exit();
+        } else if (resp == JOptionPane.YES_OPTION) {
+            TelaRanking rankin = new TelaRanking();
         }
     }
 }
-
