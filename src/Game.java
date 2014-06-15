@@ -32,11 +32,12 @@ class Game {
     static void setMandouSair(boolean b) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    int tempoAtual;
+    int tempoAtual, resp;
     Time tempo;
     Font fonteTempo, fontePont;
-    private boolean pausado,mandouSair,mandouContinuar;
-    static MenuFrame menu;
+    private boolean pausado, mandouSair, mandouContinuar;
+    private MenuFrame menu;
+    private LoginFrame loginMenu;
     private static Sound musica, somPause;
     static Player player;
     private static Coin[] moedas;
@@ -56,6 +57,7 @@ class Game {
         keyboard.setBehavior(Keyboard.ENTER_KEY, Keyboard.DETECT_INITIAL_PRESS_ONLY);
         keyboard.setBehavior(Keyboard.ESCAPE_KEY, Keyboard.DETECT_INITIAL_PRESS_ONLY);
         menu = new MenuFrame();
+        loginMenu = new LoginFrame();
         musica = new Sound("sons/musica1.wav");
         musica.setVolume(volumeMusica);
         somPause = new Sound("sons/pause.wav");
@@ -76,7 +78,6 @@ class Game {
             musica.play();
         }
         while (continuar) {
-//            controlarColisoes();
             if (pausado == false) {
                 draw();
             }
@@ -109,11 +110,11 @@ class Game {
         menu.setVisible(true);
         musica.stop();
         playSound(somPause);
-        while (pausado){
-            if(menu.mandouSair){
+        while (pausado) {
+            if (menu.mandouSair) {
                 exitGame();
-            } 
-            if (menu.mandouContinuar){
+            }
+            if (menu.mandouContinuar) {
                 menu.setMandouContinuar(false);
                 fecharMenu();
             }
@@ -121,13 +122,22 @@ class Game {
     }
 
     void fecharMenu() {
-        tempo.setTime(0,0,tempoAtual);
+        tempo.setTime(0, 0, tempoAtual);
         playSound(musica);
         pausado = false;
     }
 
-    static void exitGame() {
-        JOptionPane.showConfirmDialog(null, "Deseja salvar sua pontuação?");
+    void exitGame() {
+        menu.setMandouSair(false);
+        resp = JOptionPane.showConfirmDialog(null, "Deseja salvar sua pontuação?");
+        if (resp == JOptionPane.NO_OPTION) {
+            window.exit();
+        } else if (resp == JOptionPane.YES_OPTION) {
+            loginMenu.setNovaPont(player.getPontuacao());
+            loginMenu.setVisible(true);            
+        } else {
+            fecharMenu();
+        }
     }
 
     private void atualizarVidas() {
@@ -137,33 +147,6 @@ class Game {
             player.hearts[i].draw();
         }
     }
-//
-//    private void controlarColisoes() {
-//        Point origemPlayer = new Point((int)player.x,(int)player.y);
-//        Point maxPlayer = new Point((int)(player.x + player.width),(int)(player.y + player.height));
-//        Vector tiles = scene.getTilesFromRect(origemPlayer,maxPlayer);
-//        for (int i = 0; i < tiles.size(); i++) {
-//            TileInfo tile = (TileInfo)tiles.elementAt(i);
-//            if((tile.id != 5)&&(player.collided(tile))){
-//                System.out.println(tile.id+" ("+tile.x+","+tile.y+")");
-//                if(player.getStateOfX() != Constantes.STOP){
-//                    if(player.x <= tile.x  - 1){
-//                        player.x = tile.x - player.width;
-//                    } else{
-//                        player.x = tile.x + tile.width;
-//                    }
-//                } else{
-//                    if(player.y >= tile.y + tile.height - 1){
-//                        player.y = tile.y + tile.height;
-//                    } else {
-//                        if(player.y + player.height >= tile.y) {
-//                            player.y = tile.y - player.height;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private void atualizarMoedas() {
         for (Coin moeda : moedas) {
@@ -181,5 +164,5 @@ class Game {
 
     private void playSound(Sound som) {
         som.play();
-    }  
+    }
 }

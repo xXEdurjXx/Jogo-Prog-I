@@ -20,10 +20,12 @@ import javax.swing.JOptionPane;
  */
 public class LoginFrame extends javax.swing.JFrame {
     String usuario;
+    int novaPont,resp;
     public LoginFrame() {
         initComponents();
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         setResizable(false);
+        novaPont = -1;
     }
 
     /**
@@ -198,7 +200,10 @@ public class LoginFrame extends javax.swing.JFrame {
                 }
             } else {
                 if(senha.equals(senhaTeste)){
-                      
+                      resp = JOptionPane.showConfirmDialog(null,"Sua atual pontuação é "+pontuacaoUsuario+", deseja salvar sua nova pontuação("+novaPont+")?");
+                      if(resp == JOptionPane.OK_OPTION){
+                          
+                      }
                       this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                       this.dispose();
                     } else {
@@ -285,4 +290,8 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
+
+    void setNovaPont(int pontuacao) {
+        
+    }
 }

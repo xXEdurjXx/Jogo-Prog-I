@@ -159,4 +159,8 @@ public class MenuFrame extends javax.swing.JFrame {
     void setMandouContinuar(boolean b) {
         mandouContinuar = b;
     }
+
+    void setMandouSair(boolean b) {
+        mandouSair = b;
+    }
 }
