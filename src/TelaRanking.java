@@ -36,14 +36,13 @@ public class TelaRanking {
         try {
             leitor = new Scanner(dados);
             window.clear(java.awt.Color.BLACK);
-            window.drawText("top 5", 350 , 150, java.awt.Color.WHITE, fonte);
+            window.drawText("top 5", 300 , 150, java.awt.Color.WHITE, fonte);
             while (leitor.hasNext()&&counter < 5){
                 window.drawText(leitor.next(), 550,(200 + counter*30), java.awt.Color.WHITE, fonte2);
                 window.drawText(leitor.next().toLowerCase(), 100,(200 + counter*30), java.awt.Color.WHITE, fonte2);
                 leitor.next();
                 counter++;
             }
-            window.drawText("ana eu te amo", 200, 500, java.awt.Color.RED,fonte);
             leitor.close();
             window.update();
         } catch (FileNotFoundException ex) {

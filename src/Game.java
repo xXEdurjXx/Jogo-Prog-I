@@ -10,14 +10,14 @@
  */
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
+import java.util.Vector;
 import javax.swing.JOptionPane;
-//import java.awt.Point;
-//import java.util.ArrayList;
-//import java.util.Vector;
 import jplay.GameImage;
 import jplay.Keyboard;
 import jplay.Scene;
 import jplay.Sound;
+import jplay.TileInfo;
 import jplay.Time;
 import jplay.Window;
 //import jplay.TileInfo;
@@ -48,7 +48,7 @@ class Game {
         scene = new Scene();
         scene.loadFromFile("fases/fase1.scn");
         fundo = new GameImage("images/fundo.png");
-        scene.setDrawStartPos(-30, 470);
+        scene.setDrawStartPos(-24, 460);
         keyboard = window.getKeyboard();
         tempo = new Time(900, 900, false);
         tempo.setSecond(200);
@@ -75,7 +75,7 @@ class Game {
     private void executar(boolean playMusic) {
         boolean continuar = true;
         if (playMusic) {
-            musica.play();
+            //   musica.play();
         }
         while (continuar) {
             if (pausado == false) {
@@ -131,10 +131,22 @@ class Game {
         menu.setMandouSair(false);
         resp = JOptionPane.showConfirmDialog(null, "Deseja salvar sua pontuação?");
         if (resp == JOptionPane.NO_OPTION) {
-            window.exit();
+            resp = JOptionPane.showConfirmDialog(null, "Deseja ver as melhores pontuações?");
+            if(resp == JOptionPane.NO_OPTION){
+                window.exit();
+            } else {
+                TelaRanking tela = new TelaRanking();
+/**
+ * oi, tudo bem?????????????????????????????? Oiiiiiiiii, tudo e vc? 
+ * tranquilo, estou só mexendo nas opções pra ver se o usuário não quer ver o ranking
+ * sem ter que salvar a pontuação <3 Ta bom panda s2
+ * vou só terminar ai vamos pro filme ahaan enquanto isso vou ouvindo minhas musicas,me chama no whatsapp quandoo acabar '-'
+ * nao, vai ficar fazendo o código comigo <3 é rápido, são só mais duas linhas kkk .__. ta 
+ */
+            }
         } else if (resp == JOptionPane.YES_OPTION) {
             loginMenu.setNovaPont(player.getPontuacao());
-            loginMenu.setVisible(true);            
+            loginMenu.setVisible(true);
         } else {
             fecharMenu();
         }
@@ -166,3 +178,4 @@ class Game {
         som.play();
     }
 }
+

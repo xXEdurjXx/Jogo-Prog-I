@@ -44,7 +44,7 @@ public class MenuInicial {
         mouse.setBehavior(Mouse.BUTTON_RIGHT, Mouse.DETECT_INITIAL_PRESS_ONLY);
         musica = new Sound("sons/Super Mario Theme.wav");
         musica.setRepeat(true);
-        musica.play();
+   //     musica.play();
         somStart = new Sound("sons/enter_level.wav");
         somStart.setRepeat(false);
         botaoSair = new Button("images/exit_icon.png", 770, 10);

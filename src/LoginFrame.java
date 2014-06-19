@@ -316,7 +316,7 @@ public class LoginFrame extends javax.swing.JFrame {
             while (leitor.hasNextLine()) {
                 infUsuarios = leitor.nextLine().split(" ", 3);
                 System.out.println(infUsuarios[0]);
-                if (infUsuarios[1].equals(usuario) == false) {
+                if (!infUsuarios[1].equals(usuario)) {
                     if (pontuacao < Integer.parseInt(infUsuarios[0])) {
                         escritor.format("%s\n", infUsuarios[0] + " " + infUsuarios[1] + " " + infUsuarios[2]);
                     } else {
