@@ -110,4 +110,7 @@ public class Player extends Sprite {
     void addPoints(int i) {
         pontuacao += i;
     }
+    void die(){
+        vidas--;
+    }
 }
