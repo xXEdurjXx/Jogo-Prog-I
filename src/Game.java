@@ -1,13 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Eduardo
- */
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
@@ -17,6 +7,7 @@ import jplay.GameImage;
 import jplay.Keyboard;
 import jplay.Scene;
 import jplay.Sound;
+import jplay.Sprite;
 import jplay.TileInfo;
 import jplay.Time;
 import jplay.Window;
@@ -28,26 +19,25 @@ class Game {
     static Scene scene;
     static Keyboard keyboard;
     static GameImage fundo;
-
-    static void setMandouSair(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    int tempoAtual, resp;
+    int tempoAtual, resp,vol,dif;
     Time tempo;
     Font fonteTempo, fontePont;
-    private boolean pausado, mandouSair, mandouContinuar;
+    private boolean pausado, playMusic;
     private MenuFrame menu;
     private LoginFrame loginMenu;
-    private static Sound musica, somPause;
+    private static Sound musica, somPause,gameOverSound;
     static Player player;
     private static Coin[] moedas;
     private String pont;
+    private Sprite gameOverSheet;
 
     void carregar(int volumeMusica) {
         window = MenuInicial.janela;
         scene = new Scene();
         scene.loadFromFile("fases/fase1.scn");
         fundo = new GameImage("images/fundo.png");
+        gameOverSheet = new Sprite("images/game_over_sheet.png",7);
+        gameOverSheet.setCurrFrame(0);
         scene.setDrawStartPos(-24, 460);
         keyboard = window.getKeyboard();
         tempo = new Time(900, 900, false);
@@ -61,6 +51,8 @@ class Game {
         musica = new Sound("sons/musica1.wav");
         musica.setVolume(volumeMusica);
         somPause = new Sound("sons/pause.wav");
+        gameOverSound = new Sound("sons/player_down.wav");
+        gameOverSound.setVolume(resp);
         player = new Player(30, 0, 600);
         scene.addOverlay(player);
         scene.moveScene(player);
@@ -99,6 +91,9 @@ class Game {
     }
 
     public Game(boolean executarMusica, int volumeMusica, int dificuldade) {
+        playMusic = executarMusica;
+        vol = volumeMusica;
+        dif = dificuldade;
         carregar(volumeMusica);
         executar(executarMusica);
         exitGame();
@@ -135,15 +130,7 @@ class Game {
             if(resp == JOptionPane.NO_OPTION){
                 window.exit();
             } else {
-                TelaRanking tela = new TelaRanking();
-/**
- * oi, tudo bem?????????????????????????????? Oiiiiiiiii, tudo e vc? 
- * tranquilo, estou só mexendo nas opções pra ver se o usuário não quer ver o ranking
- * sem ter que salvar a pontuação <3 Ta bom panda s2
- * vou só terminar ai vamos pro filme ahaan enquanto isso vou ouvindo minhas musicas,me chama no whatsapp quandoo acabar '-'
- * nao, vai ficar fazendo o código comigo <3 é rápido, são só mais duas linhas kkk .__. ta 
- */
-            }
+                TelaRanking tela = new TelaRanking();     }
         } else if (resp == JOptionPane.YES_OPTION) {
             loginMenu.setNovaPont(player.getPontuacao());
             loginMenu.setVisible(true);
@@ -153,10 +140,14 @@ class Game {
     }
 
     private void atualizarVidas() {
+        if(player.getVidas() >= 0){
         for (int i = 0; i < player.getVidas(); i++) {
             player.hearts[i].x = 10 + i * 25;
             player.hearts[i].y = 10;
             player.hearts[i].draw();
+        }
+        } else {
+            gameOver();
         }
     }
 
@@ -176,6 +167,28 @@ class Game {
 
     private void playSound(Sound som) {
         som.play();
+    }
+    void gameOver(){
+        musica.stop();
+        pausado = true;
+        playSound(gameOverSound);
+        gameOverSheet.setSequenceTime(0, 6, false, 7);
+        String m = "game over";
+        gameOverSheet.play();
+        boolean continuar = true;
+        while(continuar){
+            gameOverSheet.update();
+            gameOverSheet.draw();
+            window.drawText("game over", 250, 200, Color.WHITE, fonteTempo);
+            window.drawText("esc para sair", 225, 300,Color.WHITE, fontePont);
+            window.drawText("enter para reiniciar o jogo", 25, 400,Color.WHITE, fontePont);
+            window.update();
+            if(keyboard.keyDown(Keyboard.ESCAPE_KEY)){
+                exitGame();
+            } else if (keyboard.keyDown(Keyboard.ENTER_KEY)){
+                Game novoJogo = new Game(playMusic,vol,dif);
+            }
+        }
     }
 }
 
