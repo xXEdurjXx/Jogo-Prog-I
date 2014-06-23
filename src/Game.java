@@ -1,14 +1,11 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Point;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import jplay.GameImage;
 import jplay.Keyboard;
 import jplay.Scene;
 import jplay.Sound;
 import jplay.Sprite;
-import jplay.TileInfo;
 import jplay.Time;
 import jplay.Window;
 //import jplay.TileInfo;
@@ -67,7 +64,7 @@ class Game {
     private void executar(boolean playMusic) {
         boolean continuar = true;
         if (playMusic) {
-            //   musica.play();
+               musica.play();
         }
         while (continuar) {
             if (pausado == false) {
@@ -136,6 +133,7 @@ class Game {
             loginMenu.setVisible(true);
         } else {
             fecharMenu();
+            window.exit();
         }
     }
 

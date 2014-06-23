@@ -21,7 +21,7 @@ public class MenuInicial {
     private static Keyboard teclado;
     private static Mouse mouse;
     private static Sound musica, somStart;
-    private static Button botaoSair, botaoConfig, botaoStart;
+    private static Button botaoSair, botaoConfig, botaoStart,botaoRanking;
     private static boolean configAberto = false;
     static ConfigFrame config;
     private static Game jogo;
@@ -44,12 +44,13 @@ public class MenuInicial {
         mouse.setBehavior(Mouse.BUTTON_RIGHT, Mouse.DETECT_INITIAL_PRESS_ONLY);
         musica = new Sound("sons/Super Mario Theme.wav");
         musica.setRepeat(true);
-   //     musica.play();
+        musica.play();
         somStart = new Sound("sons/enter_level.wav");
         somStart.setRepeat(false);
-        botaoSair = new Button("images/exit_icon.png", 770, 10);
+        botaoSair = new Button("images/exit_icon.png", 760, 10);
         botaoStart = new Button("images/start_button.png", 300, 400);
-        botaoConfig = new Button("images/config_button.png", 730, 10);
+        botaoConfig = new Button("images/config_button.png", 710, 10);
+        botaoRanking = new Button("images/ranking_icon.png",10,10);
         config = new ConfigFrame();
     }
 
@@ -58,6 +59,7 @@ public class MenuInicial {
         botaoSair.draw();
         botaoStart.draw();
         botaoConfig.draw();
+        botaoRanking.draw();
         janela.update();
     }
 
@@ -68,7 +70,7 @@ public class MenuInicial {
        musica = null;
     }
 
-    private static void executar() {
+    public static void executar() {
         boolean sair = false;
         do {
             desenhar();
@@ -81,6 +83,9 @@ public class MenuInicial {
             }
             if (mouse.isOverObject(botaoStart) && mouse.isLeftButtonPressed()) {
                 sair = true;
+            }
+            if (mouse.isOverObject(botaoRanking)&&mouse.isLeftButtonPressed()){
+                TelaRanking ranking = new TelaRanking();
             }
 
         } while (sair == false);
