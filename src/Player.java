@@ -16,11 +16,15 @@ public class Player extends Sprite {
     Sprite[] hearts;
     Keyboard keyboard;
 
+    private int xInicial;
+    private int yInicial;
     public Player(int posX, int posY, int chao) {
         super("images/Mario.png", 6);
         pause();
         setCurrFrame(0);
         setTotalDuration(600);
+        xInicial=posX;
+        yInicial=posY;
         x = posX;
         y = posY;
         vidas = 3;
@@ -112,5 +116,7 @@ public class Player extends Sprite {
     }
     void die(){
         vidas--;
+        x=xInicial;
+        y=yInicial;
     }
 }
