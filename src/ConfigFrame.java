@@ -91,6 +91,11 @@ public class ConfigFrame extends javax.swing.JFrame {
                 botaoOkMouseClicked(evt);
             }
         });
+        botaoOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoOkActionPerformed(evt);
+            }
+        });
 
         botaoCancelar.setText("Cancelar");
 
@@ -197,6 +202,11 @@ public class ConfigFrame extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         MenuInicial.setConfigAberto(false);
     }//GEN-LAST:event_formWindowClosed
+
+    private void botaoOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoOkActionPerformed
+     
+        setVisible(false);
+    }//GEN-LAST:event_botaoOkActionPerformed
 
     /**
      * @param args the command line arguments

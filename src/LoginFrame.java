@@ -82,11 +82,21 @@ public class LoginFrame extends javax.swing.JFrame {
                 botaoOkMouseClicked(evt);
             }
         });
+        botaoOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoOkActionPerformed(evt);
+            }
+        });
 
         botaoCancelar.setText("Cancelar");
         botaoCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 botaoCancelarMouseClicked(evt);
+            }
+        });
+        botaoCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoCancelarActionPerformed(evt);
             }
         });
 
@@ -177,6 +187,15 @@ public class LoginFrame extends javax.swing.JFrame {
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
 
     }//GEN-LAST:event_formComponentHidden
+
+    private void botaoOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoOkActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+    }//GEN-LAST:event_botaoOkActionPerformed
+
+    private void botaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarActionPerformed
+        setVisible(false);
+    }//GEN-LAST:event_botaoCancelarActionPerformed
     private void logarUsuario(String usuario, String senha) {
         String senhaAtual, usuarioAtual;
         String senhaTeste = "";

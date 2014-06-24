@@ -18,13 +18,14 @@ public class Player extends Sprite {
 
     private int xInicial;
     private int yInicial;
+
     public Player(int posX, int posY, int chao) {
         super("images/Mario.png", 6);
         pause();
         setCurrFrame(0);
         setTotalDuration(600);
-        xInicial=posX;
-        yInicial=posY;
+        xInicial = posX;
+        yInicial = posY;
         x = posX;
         y = posY;
         vidas = 3;
@@ -49,12 +50,12 @@ public class Player extends Sprite {
         if (keyboard.keyDown(Keyboard.SPACE_KEY)) {
             pular();
         } else {
-            if ((keyboard.keyDown(Keyboard.LEFT_KEY))&&(!isJumping())) {
+            if ((keyboard.keyDown(Keyboard.LEFT_KEY)) && (!isJumping())) {
                 moveEsquerda();
             } else {
-                if ((keyboard.keyDown(Keyboard.RIGHT_KEY))&&(!isJumping())) {
+                if ((keyboard.keyDown(Keyboard.RIGHT_KEY)) && (!isJumping())) {
                     moveDireita();
-                } else if(!isJumping()){
+                } else if (!isJumping()) {
                     parar();
                 }
             }
@@ -72,7 +73,7 @@ public class Player extends Sprite {
 
     private void moveEsquerda() {
         if (stateX != Constantes.LEFT) {
-            setSequence(3,5);
+            setSequence(3, 5);
             stateX = Constantes.LEFT;
             play();
         }
@@ -98,25 +99,46 @@ public class Player extends Sprite {
     }
 
     private void pular() {
-        if(stateX == Constantes.RIGHT){
-            while(isJumping()){
-            setCurrFrame(40);
+        if (stateX == Constantes.RIGHT) {
+            while (isJumping()) {
+                setCurrFrame(40);
             }
         }
-        if(stateX == Constantes.LEFT){
+        if (stateX == Constantes.LEFT) {
             setCurrFrame(41);
         }
     }
-    public int getStateOfX(){
+
+    public int getStateOfX() {
         return stateX;
     }
 
     void addPoints(int i) {
         pontuacao += i;
     }
-    void die(){
+
+    void die() {
         vidas--;
-        x=xInicial;
-        y=yInicial;
+        x = xInicial;
+        y = yInicial;
     }
+
+    public void vida() {
+        vidas++;
+
+        hearts = new Sprite[vidas];
+        for (int i = 0; i < hearts.length; i++) {
+            hearts[i] = new Sprite("images/heart.png");
+        }
+    }
+
+    void setVida(int j) {
+        vidas = j;
+        hearts = new Sprite[vidas];
+        for (int i = 0; i < hearts.length; i++) {
+            hearts[i] = new Sprite("images/heart.png");
+        }
+
+    }
+
 }
