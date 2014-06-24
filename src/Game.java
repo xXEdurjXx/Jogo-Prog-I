@@ -44,14 +44,14 @@ class Game {
     private int drawY = 0;
 
     //private Enemy enemy;
-    private Enemy[] enemys;
+    private ArrayList enemys;
 
     void carregar(int volumeMusica) {
         window = MenuInicial.janela;
         scene = new Scene();
         scene.setDrawStartPos(drawX, drawY);
         //enemy = new Enemy("images/Mario.png", 6);
-        enemys = new Enemy[3];
+        enemys = new ArrayList();
 
         scene.loadFromFile("fases/fase1.scn");
         fundo = new GameImage("images/fundo.png");
@@ -265,37 +265,39 @@ class Game {
 
             TileInfo rectAtual = (TileInfo) v.get(i);
 
-            if (rectcima.collided(rectAtual)) {
+            if (rectAtual.id != 12) {
+                if (rectcima.collided(rectAtual)) {
 
-                player.y++;
-                player.setVelocityY(0);
-                break;
+                    player.y++;
+                    player.setVelocityY(0);
+                    break;
 
-            }
+                }
 
-            if (rectLat2.collided(rectAtual)) {
+                if (rectLat2.collided(rectAtual)) {
 
-                player.x = rectAtual.x + drawX - player.width;
+                    player.x = rectAtual.x + drawX - player.width;
 
-                break;
-            }
+                    break;
+                }
 
-            if (rectLat1.collided(rectAtual)) {
+                if (rectLat1.collided(rectAtual)) {
 
-                // player.x =rectAtual.x+rectAtual.width-drawX;
-                player.x = rectAtual.x + drawX + rectAtual.width;
+                    // player.x =rectAtual.x+rectAtual.width-drawX;
+                    player.x = rectAtual.x + drawX + rectAtual.width;
 
 //                System.out.println("colidiu");
-                break;
-            }
-            if (rectBaixo.collided(rectAtual)) {
+                    break;
+                }
+                if (rectBaixo.collided(rectAtual)) {
 
-                player.setFloor((int) (rectAtual.y + 1));
-                //System.out.println(player.y+"    " +rectAtual.y);
-                break;
+                    player.setFloor((int) (rectAtual.y + 1));
+                    //System.out.println(player.y+"    " +rectAtual.y);
+                    break;
 
-            } else {
-                player.setFloor(640);
+                } else {
+                    player.setFloor(640);
+                }
             }
         }
     }
@@ -327,7 +329,7 @@ class Game {
 
             TileInfo rectAtual = (TileInfo) v.get(i);
 
-            if (rectAtual.id == 7 || rectAtual.id == 8 || rectAtual.id == 9) {
+            if (rectAtual.id == 7 || rectAtual.id == 8 || rectAtual.id == 9 || rectAtual.id == 12) {
 
                 Coin m = new Coin();
 
@@ -402,15 +404,16 @@ class Game {
             TileInfo rectAtual = (TileInfo) v.get(i);
 
             if (rectAtual.id == 10) {
-                enemys[j] = new Enemy("images/inimigo.png", 10);
-                enemys[j].setPosMinMax(rectAtual.x - enemys[j].width, rectAtual.y, rectAtual.x - enemys[j].width);
-
+                Enemy inimigo = new Enemy("images/inimigo.png", 10);
+                inimigo.setPosMinMax(rectAtual.x - inimigo.width, rectAtual.y, rectAtual.x - inimigo.width);
+                enemys.add(inimigo);
                 // System.out.println("gerou");
             } else {
                 if (rectAtual.id == 11) {
 
-                    enemys[j].setMax(rectAtual.x - enemys[j].width);
-
+                    Enemy inim = (Enemy) enemys.get(j);
+                    inim.setMax(rectAtual.x - inim.width);
+                    
                     // System.out.println("pronto");
                     j++;
                 }
