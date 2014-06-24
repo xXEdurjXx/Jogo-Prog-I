@@ -37,8 +37,8 @@ class Game {
     //Colisores  
     private GameObject rectBaixo;
     private GameObject rectcima;
-    private GameImage rectLat1;
-    private GameImage rectLat2;
+    private GameObject rectLat1;
+    private GameObject rectLat2;
 
     private int drawX = -30;
     private int drawY = 0;
@@ -95,12 +95,12 @@ class Game {
         rectcima.width = 3 * player.width / 4;
         rectcima.height = 2 * player.height / 4;
 
-        rectLat1 = new GameImage("images/fundo.png");
+        rectLat1 = new GameObject();
 
         rectLat1.width = 2 * player.width / 4;
         rectLat1.height = 3 * player.height / 4;
 
-        rectLat2 = new GameImage("images/fundo.png");
+        rectLat2 = new GameObject();
 
         rectLat2.width = 2 * player.width / 4;
         rectLat2.height = 3 * player.height / 4;
@@ -130,8 +130,6 @@ class Game {
         player.move();
         player.update();
         scene.draw();
-        rectLat1.draw();
-        rectLat2.draw();
 
         for (Object inimigo : enemys) {
 
@@ -413,7 +411,7 @@ class Game {
 
                     enemys[j].setMax(rectAtual.x - enemys[j].width);
 
-                   // System.out.println("pronto");
+                    // System.out.println("pronto");
                     j++;
                 }
             }
